@@ -8,40 +8,40 @@ import { filter } from '../utils/common.js';
 const router = express.Router();
 
 router.get('/', async (req, res) => {
-  const allUsers = await prisma.user.findMany();
-  res.json(allUsers);
+  const allexpenseInput = await prisma.expenseInput.findMany();
+  res.json(allexpenseInput);
 });
 
 router.post('/', async (req, res) => {
   const data = req.body;
 
-  const validationErrors = validateUser(data);
+  // const validationErrors = validateUser(data);
 
-  if (Object.keys(validationErrors).length !== 0)
-    return res.status(400).send({
-      error: validationErrors,
-    });
+  // if (Object.keys(validationErrors).length !== 0)
+  //   return res.status(400).send({
+  //     error: validationErrors,
+  //   });
 
-  try {
-    const user = await prisma.user.create({
-      data,
-    });
-
-    return res.json(filter(user, 'id', 'name', 'email'));
-  } catch (err) {
-    if (
-      err instanceof Prisma.PrismaClientKnownRequestError &&
-      err.code === 'P2002'
-    ) {
-      const formattedError = {};
-      formattedError[`${err.meta.target[0]}`] = 'already taken';
-
-      return res.status(500).send({
-        error: formattedError,
+    try {
+      const expenseInput = await prisma.expenseInput.create({
+        data,
       });
+  
+      return res.json(expenseInput);
+    } catch (err) {
+      if (
+        err instanceof Prisma.PrismaClientKnownRequestError &&
+        err.code === 'P2002'
+      ) {
+        const formattedError = {};
+        formattedError[`${err.meta.target[0]}`] = 'already taken';
+  
+        return res.status(500).send({
+          error: formattedError,
+        });
+      }
+      throw err;
     }
-    throw err;
-  }
-});
+  });
 
 export default router;
