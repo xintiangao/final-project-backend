@@ -4,7 +4,7 @@ import { Prisma } from '@prisma/client';
 import prisma from '../utils/prisma.js';
 import { validateUser } from '../validators/users.js';
 import { filter } from '../utils/common.js';
-import sgMail from '@sendgrid/mail';
+// import sgMail from '@sendgrid/mail';
 
 const router = express.Router();
 // const sendGridKey = process.env.SENDGRID_API_KEY;
