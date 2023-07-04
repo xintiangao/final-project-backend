@@ -15,6 +15,7 @@ router.post('/', async (req, res) => {
   const dateValue = new Date(dateString);
   const isoDate = dateValue.toISOString()
   data.date=isoDate
+  
 //   const validationErrors = validateUser(data);
 
 //   if (Object.keys(validationErrors).length !== 0)
