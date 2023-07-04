@@ -1,0 +1,13 @@
+{
+    "sqltools.connections": [
+        {
+            "previewLimit": 50,
+            "server": "localhost",
+            "port": 5443,
+            "driver": "PostgreSQL",
+            "name": "next-final-project",
+            "database": "next-final-project",
+            "username": "next"
+        }
+    ]
+}

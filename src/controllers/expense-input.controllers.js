@@ -44,4 +44,9 @@ router.post('/', async (req, res) => {
     }
   });
 
+  router.delete('/', async (req, res) => {
+    const allexpenseInput = await prisma.expenseInput.deleteMany();
+    res.json(allexpenseInput);
+  });
+
 export default router;

@@ -20,9 +20,10 @@ model User {
 
 model ExpenseInput {
   id            Int     @id @default(autoincrement())
-  categories    String
+  category      String
   amount        Int
-  notes         String?
+  note          String?
+  date          DateTime?
   user          User @relation(fields:[userId], references: [id])
   userId        Int 
 }
