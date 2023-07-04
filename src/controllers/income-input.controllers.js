@@ -5,8 +5,8 @@ import prisma from '../utils/prisma.js';
 const router = express.Router();
 
 router.get('/', async (req, res) => {
-  const allUsers = await prisma.user.findMany();
-  res.json(allUsers);
+  const allIncomeInput = await prisma.incomeInput.findMany();
+  res.json(allIncomeInput);
 });
 
 router.post('/', async (req, res) => {
@@ -20,11 +20,11 @@ router.post('/', async (req, res) => {
 //     });
 
   try {
-    const user = await prisma.user.create({
+    const incomeInput = await prisma.incomeInput.create({
       data,
     });
 
-    return res.json(filter(user, 'id', 'name', 'email'));
+    return res.json(incomeInput);
   } catch (err) {
     if (
       err instanceof Prisma.PrismaClientKnownRequestError &&
@@ -40,5 +40,10 @@ router.post('/', async (req, res) => {
     throw err;
   }
 });
+
+router.delete('/', async (req, res) => {
+    const allIncomeInput = await prisma.incomeInput.deleteMany();
+    res.json(allIncomeInput);
+  });
 
 export default router;
