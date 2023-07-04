@@ -11,6 +11,10 @@ router.get('/', async (req, res) => {
 
 router.post('/', async (req, res) => {
   const data = req.body;
+  const dateString = data.date
+  const dateValue = new Date(dateString);
+  const isoDate = dateValue.toISOString()
+  data.date=isoDate
 
   // const validationErrors = validateUser(data);
 
