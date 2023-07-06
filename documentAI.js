@@ -9,8 +9,8 @@ async function main() {
    */
   const projectId = 'teak-catalyst-391812';
   const location = 'us'; // Format is 'us' or 'eu'
-  const processorId = 'ad1b1131b807c9f'; // Create processor in Cloud Console
-  const filePath = '/home/yongcheeho/next-final-project/files/receipt.jpeg';
+  const processorId = '83c007cf5288d57c'; // Create processor in Cloud Console
+  const filePath = '/home/yongcheeho/next-final-project/files/receipt 2.jpg';
   
   async function processDocument() {
     // The full resource name of the processor, e.g.:

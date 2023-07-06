@@ -45,6 +45,7 @@ model ExpenseInput {
 model CalculationRecord {
   id                  Int     @id @default(autoincrement())
   title               String?
+  income              Int?
   totalSaving         Int?
   duration            String?
   expensesPerMonth    Int?
@@ -56,6 +57,7 @@ model CalculationRecord {
 model SetGoal {
   id                  Int     @id @default(autoincrement())
   title               String?
+  income              Int?
   totalSaving         Int?
   duration            String?
   date                DateTime?
