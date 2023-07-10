@@ -1,6 +1,7 @@
 import express from 'express';
 import { Prisma } from '@prisma/client';
 import prisma from '../utils/prisma.js';
+import auth from '../middlewares/auth.js';
 
 const router = express.Router();
 
@@ -9,11 +10,14 @@ router.get('/', async (req, res) => {
   res.json(allGoals);
 });
 
-router.post('/', async (req, res) => {
-    const data = req.body;
-    const dateString = data.date
-    data.date= new Date(dateString);
-  
+router.post('/', auth, async (req, res) => {
+  const data = req.body;
+  const user_id = req.user.payload.id
+  // const startDateString = data.start_date
+  // const endDateString = data.end_date
+  // data.start_date = new Date(startDateString);
+  // data.end_date = new Date(endDateString);
+
 //   const validationErrors = validateUser(data);
 
 //   if (Object.keys(validationErrors).length !== 0)
@@ -23,9 +27,19 @@ router.post('/', async (req, res) => {
 
   try {
     const goal = await prisma.setGoal.create({
-      data,
+      data: {
+        ...data,
+        expenseCategories:{
+          create: data.expenseCategories,
+        },
+        user: {
+          connect: {
+                    id : user_id
+                },
+        }
+      }
     });
-
+    
     return res.json(goal);
   } catch (err) {
     if (
