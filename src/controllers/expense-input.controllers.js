@@ -48,4 +48,29 @@ router.delete('/', async (req, res) => {
   res.json(allexpenseInput);
 });
 
+router.patch('/:id', async (req, res) => {
+  const id = req.body.id;
+  const data = req.body;
+
+  try {
+    const expenseInput = await prisma.expenseInput.update({
+      where: { id: parseInt(id) },
+      data,
+    });
+
+    return res.json(expenseInput);
+  } catch (err) {
+    if (
+      err instanceof Prisma.PrismaClientKnownRequestError &&
+      err.code === 'P2025'
+    ) {
+      return res.status(404).send({
+        error: 'Expense input not found',
+      });
+    }
+    throw err;
+  }
+});
+
+
 export default router;
