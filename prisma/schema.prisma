@@ -20,6 +20,7 @@ model User {
   expenseinput      ExpenseInput[]
   calculationrecord CalculationRecord[]
   setgoal           SetGoal[]
+  community         Community[]
 }
 
 model IncomeInput {
@@ -67,4 +68,13 @@ model SetGoal {
   date                Int?
   user                User @relation(fields:[userId], references: [id])
   userId              Int  
+}
+
+model Community {
+  id              Int      @id @default(autoincrement())
+  totalSpend      Int
+  totalSaving     Int   
+  createdAt       DateTime @default(now())
+  userId          Int
+  user            User     @relation(fields: [userId], references: [id])
 }
