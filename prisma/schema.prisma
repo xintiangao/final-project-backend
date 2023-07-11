@@ -53,7 +53,16 @@ model CalculationRecord {
   duration            String?
   savingsPerMonth     Int?
   user                User @relation(fields:[userId], references: [id])
-  userId              Int 
+  userId              Int
+  expenseCategories   ExpensesCategoryForCalculationRecord[]
+}
+
+model ExpensesCategoryForCalculationRecord{
+  id          Int     @id @default(autoincrement())
+  name        String
+  value       Int
+  CalculationRecord     CalculationRecord@relation(fields: [CalculationRecordId], references: [id])
+  CalculationRecordId   Int
 }
 
 model SetGoal {
@@ -65,9 +74,19 @@ model SetGoal {
   totalSaving         Int?
   duration            String?
   savingsPerMonth     Int?
-  date                Int?
+  start_date          String?
+  end_date            String?
   user                User @relation(fields:[userId], references: [id])
   userId              Int  
+  expenseCategories   ExpenseCategoryForSetGoal[]
+}
+
+model ExpenseCategoryForSetGoal {
+  id          Int     @id @default(autoincrement())
+  name        String
+  value       Int
+  setGoal     SetGoal @relation(fields: [setGoalId], references: [id])
+  setGoalId   Int
 }
 
 model Community {
