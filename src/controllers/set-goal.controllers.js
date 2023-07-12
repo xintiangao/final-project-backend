@@ -62,4 +62,17 @@ router.delete('/', async (req, res) => {
     res.json(allGoals);
   });
 
+router.get('/:userId', async (req, res) => {
+  try {
+    const expenseData = await prisma.setGoal.findUnique({
+      where: {
+        userId: parseInt(req.params.userId),
+      },
+    });
+    res.json(expenseData)
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to fetch posts'})
+  }
+})
+
 export default router;

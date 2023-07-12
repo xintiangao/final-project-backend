@@ -11,41 +11,48 @@ router.get('/', async (req, res) => {
 
 router.post('/', async (req, res) => {
   const data = req.body;
+  console.log(data)
   const dateString = data.date
   data.date= new Date(dateString);
-  
-//   const validationErrors = validateUser(data);
 
-//   if (Object.keys(validationErrors).length !== 0)
-//     return res.status(400).send({
-//       error: validationErrors,
-//     });
-
-  try {
-    const incomeInput = await prisma.incomeInput.create({
-      data,
-    });
-
-    return res.json(incomeInput);
-  } catch (err) {
-    if (
-      err instanceof Prisma.PrismaClientKnownRequestError &&
-      err.code === 'P2002'
-    ) {
-      const formattedError = {};
-      formattedError[`${err.meta.target[0]}`] = 'already taken';
-
-      return res.status(500).send({
-        error: formattedError,
+    try {
+      const incomeInput = await prisma.incomeInput.create({
+        data,
       });
+  
+      return res.json(incomeInput);
+    } catch (err) {
+      if (
+        err instanceof Prisma.PrismaClientKnownRequestError &&
+        err.code === 'P2002'
+      ) {
+        const formattedError = {};
+        formattedError[`${err.meta.target[0]}`] = 'already taken';
+  
+        return res.status(500).send({
+          error: formattedError,
+        });
+      }
+      throw err;
     }
-    throw err;
-  }
-});
+  });
 
 router.delete('/', async (req, res) => {
     const allIncomeInput = await prisma.incomeInput.deleteMany();
     res.json(allIncomeInput);
   });
+
+router.get('/:userId', async (req, res) => {
+  try {
+    const expenseData = await prisma.incomeInput.findMany({
+      where: {
+        userId: parseInt(req.params.userId),
+      },
+    });
+    res.json(expenseData)
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to fetch posts'})
+  }
+})
 
 export default router;

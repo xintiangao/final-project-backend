@@ -25,12 +25,12 @@ model User {
 
 model IncomeInput {
   id              Int     @id @default(autoincrement())
-  monthlyincome   Int?
-  otherincome     Int?
-  date            DateTime?
+  income          String
+  amount          Int
   note            String?
-  user            User @relation(fields:[userId], references: [id])
+  date            DateTime?
   userId          Int 
+  user            User @relation(fields:[userId], references: [id])
 }
 
 model ExpenseInput {
@@ -93,6 +93,8 @@ model Community {
   id              Int      @id @default(autoincrement())
   totalSpend      Int
   totalSaving     Int   
+  chartData       String
+  name            String?
   createdAt       DateTime @default(now())
   userId          Int
   user            User     @relation(fields: [userId], references: [id])

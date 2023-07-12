@@ -43,10 +43,29 @@ router.post('/', async (req, res) => {
     }
   });
 
-router.delete('/', async (req, res) => {
-  const allexpenseInput = await prisma.expenseInput.deleteMany();
-  res.json(allexpenseInput);
-});
+  router.delete('/:id', async (req, res) => {
+    const expenseId = req.params.id;
+  
+    try {
+      const deletedExpense = await prisma.expenseInput.delete({
+        where: { id: parseInt(expenseId) },
+      });
+  
+      res.sendStatus(200); // Send a success status code
+    } catch (err) {
+      if (
+        err instanceof Prisma.PrismaClientKnownRequestError &&
+        err.code === 'P2025'
+      ) {
+        return res.status(404).send({
+          error: 'Expense input not found',
+        });
+      }
+      console.error('Failed to delete expense:', err);
+      res.sendStatus(500); // Send an error status code
+    }
+  });
+  
 
 router.patch('/:id', async (req, res) => {
   const id = req.body.id;
@@ -72,5 +91,17 @@ router.patch('/:id', async (req, res) => {
   }
 });
 
+router.get('/:userId', async (req, res) => {
+  try {
+    const expenseData = await prisma.expenseInput.findMany({
+      where: {
+        userId: parseInt(req.params.userId),
+      },
+    });
+    res.json(expenseData)
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to fetch posts'})
+  }
+})
 
 export default router;
