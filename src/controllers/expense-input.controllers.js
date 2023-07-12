@@ -27,6 +27,8 @@ router.post('/', async (req, res) => {
       const expenseInput = await prisma.expenseInput.create({
         data,
       });
+
+      console.log(data)
   
       return res.json(expenseInput);
     } catch (err) {
