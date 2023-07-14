@@ -21,6 +21,7 @@ model User {
   calculationrecord CalculationRecord[]
   setgoal           SetGoal[]
   community         Community[]
+  banks             Bank[]
 }
 
 model IncomeInput {
@@ -98,4 +99,21 @@ model Community {
   createdAt       DateTime @default(now())
   userId          Int
   user            User     @relation(fields: [userId], references: [id])
+}
+
+model Bank {
+  id        Int            @id @default(autoincrement())
+  name      String
+  user      User           @relation(fields: [userId], references: [id])
+  userId    Int
+  cashBacks CashBack[]
+}
+
+model CashBack {
+  id         Int    @id @default(autoincrement())
+  category   String
+  default    String
+  cashBack   String
+  bankId     Int
+  bank       Bank   @relation(fields: [bankId], references: [id])
 }
