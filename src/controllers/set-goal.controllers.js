@@ -5,9 +5,22 @@ import auth from '../middlewares/auth.js';
 
 const router = express.Router();
 
-router.get('/', async (req, res) => {
-  const allGoals = await prisma.setGoal.findMany();
-  res.json(allGoals);
+// router.get('/', async (req, res) => {
+//   const allGoals = await prisma.setGoal.findMany();
+//   res.json(allGoals);
+// });
+
+router.get('/', auth, async (req, res) => {
+  const userId = req.user.payload.id
+  const allSetGoalRecords = await prisma.SetGoal.findMany({
+    where: {
+      userId: Number(userId),
+    },
+    include: {
+      expenseCategories: true,
+    },
+  });
+  res.json(allSetGoalRecords);
 });
 
 router.post('/', auth, async (req, res) => {
